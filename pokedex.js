@@ -16,15 +16,15 @@ var onPokedexSuccess = function (response) {
 
         var pokedex = data["results"];
         var dexHTML = "";
+        var picHTML = "";
         var picId = 0;
 
         for (var pokemon of pokedex) {
-            
             dexHTML +=
 
                 "<div class='col-md-4'>"
                 + "<div class='card mb-4 shadow-sm'>"
-                + "<div id='" + picId + "'></div>"
+                + "<div id='"+picId+"'></div>"
                 + "<div class='card-body'>"
                 + "<h5>" + pokemon.name + "</h5>"
                 + "<div class='d-flex justify-content-between align-items-center'>"
@@ -33,30 +33,23 @@ var onPokedexSuccess = function (response) {
                 + pokemon.url + "\")' data-toggle='modal' data-target='#exampleModalCenter'>DETAILS</button>"
                 + "</div></div></div></div></div>"
 
-                getPic(pokemon.url);
-                picId = picId + 1;
+                fetch(pokemon.url).then(
+                    function (response) {
+                        console.log(response);
+                        var body = response.json();
+                        body.then(function (data) {
+                            console.log(data);
+            
+                            var pic = data["sprites"]["front_default"];
+                            picHTML = "<img class='card-img-top' src='" + pic + "'>";
+                            document.getElementById(picId).innerHTML = picHTML;
+                        })
+                    })
+                    picId += 1;
         }
         document.getElementById("pokemon-list").innerHTML = dexHTML;
         console.log(navigation(pokedex, 1, 10));
-
     })
-}
-
-function getPic(url) {
-    fetch(url).then(
-        function (response) {
-            console.log(response);
-            var body = response.json();
-            body.then(function (data) {
-                console.log(data);
-
-                var picHTML = "";
-                var pic = data["sprites"]["front_default"];
-                picHTML = "<img class='card-img-top' src='" + pic + "'>";
-
-                document.getElementById("" + picId + "").innerHTML = picHTML;
-            })
-        })
 }
 
 // get pokemon details on button click
