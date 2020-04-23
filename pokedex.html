@@ -2,35 +2,88 @@
 <html>
 
 <head>
-    <meta charset='utf-8'>
+    <!-- Meta -->
+    <meta charset="utf-8">
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Pokedex</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen'>
+
+    <!-- Style -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+        integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="pokedex.css">
+
+    <!-- Js -->
     <script src='pokedex.js'></script>
 
+    <title>Pokedex</title>
 </head>
 
-<script>getPokedex(50);</script>
+<script>getPokedex(3);</script>
 
 <body>
-    <h2 style="text-align: center;">Pokedex</h2>
-    <br><br>
-    <div>
-        <div style="float: left; padding-left: 10rem; text-align: center;" >
-        <div style="height: 30rem; width: 15rem; overflow-y: auto; background-color:aliceblue;">
-            <div id="pokemon-list"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="37" height="37" viewBox="0 0 226 226"
+            style=" fill:#000000;">
+            <g transform="">
+                <g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                    stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                    font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                    style="mix-blend-mode: normal">
+                    <path d="M0,226v-226h226v226z" fill="none"></path>
+                    <g fill="#575757">
+                        <path
+                            d="M113,9.04c-57.06576,0 -103.46445,46.12303 -103.94234,103.07719c-0.10913,0.56567 -0.10913,1.14699 0,1.71266c0.44942,56.97864 46.85882,103.13016 103.94234,103.13016c57.06576,0 103.46445,-46.12303 103.94234,-103.07719c0.10913,-0.56567 0.10913,-1.14699 0,-1.71266c-0.44942,-56.97864 -46.85882,-103.13016 -103.94234,-103.13016zM113,18.08c50.96088,0 92.45067,40.02819 94.80523,90.4h-49.83476c-2.27981,-22.79587 -21.58768,-40.68 -44.97047,-40.68c-23.38279,0 -42.69066,17.88413 -44.97047,40.68h-49.83476c2.35456,-50.37181 43.84436,-90.4 94.80523,-90.4zM113,76.84c19.84538,0 35.84892,15.85473 36.13352,35.63031c-0.04435,0.36355 -0.04435,0.73114 0,1.09469c-0.30328,19.75903 -16.30002,35.595 -36.13352,35.595c-19.84538,0 -35.84892,-15.85473 -36.13352,-35.63031c0.04435,-0.36355 0.04435,-0.73114 0,-1.09469c0.30328,-19.75903 16.30002,-35.595 36.13352,-35.595zM113,90.4c-7.15667,0 -13.09945,2.8465 -16.94117,7.16844c-3.84172,4.32194 -5.65883,9.90712 -5.65883,15.43156c0,5.52444 1.8171,11.10963 5.65883,15.43156c3.84172,4.32194 9.78451,7.16844 16.94117,7.16844c7.15667,0 13.09945,-2.8465 16.94117,-7.16844c3.84172,-4.32194 5.65883,-9.90712 5.65883,-15.43156c0,-5.52444 -1.8171,-11.10963 -5.65883,-15.43156c-3.84172,-4.32194 -9.78451,-7.16844 -16.94117,-7.16844zM113,99.44c4.89667,0 7.99389,1.6735 10.17883,4.13156c2.18494,2.45806 3.38117,5.91288 3.38117,9.42844c0,3.51556 -1.19623,6.97037 -3.38117,9.42844c-2.18494,2.45806 -5.28216,4.13156 -10.17883,4.13156c-4.89667,0 -7.99389,-1.6735 -10.17883,-4.13156c-2.18494,-2.45806 -3.38117,-5.91288 -3.38117,-9.42844c0,-3.51556 1.19623,-6.97037 3.38117,-9.42844c2.18494,-2.45806 5.28216,-4.13156 10.17883,-4.13156zM18.19477,117.52h49.83476c2.27981,22.79587 21.58768,40.68 44.97047,40.68c23.38279,0 42.69066,-17.88413 44.97047,-40.68h49.83476c-2.35456,50.37181 -43.84436,90.4 -94.80523,90.4c-50.96088,0 -92.45067,-40.02819 -94.80523,-90.4z">
+                        </path>
+                    </g>
+                </g>
+            </g>
+        </svg>
+        <a class="navbar-brand" style="color: #575757"> &nbsp pokédex ʕ •ᴥ•ʔゝ☆</a>
+    </nav>
+
+
+
+    <!-- Pokemon List -->
+    <div class="album py-5">
+
+        <!-- Pages navigation -->
+        <div class="container">
+            <div id="pages"></div>
         </div>
-    </div>
-        <div style="float: right; padding-right: 10rem;">
-        <div style="background-color: cornsilk; height: 20rem; width: 20rem; text-align: center;">
-            <br>
-          <h4 style="text-align: center;">DETAILS</h4>
-            <div id="pokemon-details"></div>
+
+        <div class="container-fluid">
+            <div class="row" id="pokemon-list"></div>
         </div>
-    </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">DETAILS</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div style="text-align: center;" id="pokemon-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
