@@ -1,0 +1,276 @@
+.positionCircle {
+    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+    padding: 8px;
+    border: 2px solid;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    font: 14px Arial, sans-serif;
+}
+.custom-border{
+    border-radius: 8rem;
+    border-width: 2px;
+}
+.custom-button {
+    border-radius: 6rem;
+    border-width: 2px;
+}
+.custom-modal {
+    border-radius: 8rem;
+    border-width: 2px;
+}
+.pkmn-pic {
+    /* width: 130px; */
+    height: 140px; 
+    border-radius: 4rem;
+    padding: 12px;
+}
+.pkmn-card {
+    border-radius: 8rem;
+    border-width: 2px;
+}
+
+/* types colors */
+.bug {
+  border-color: #6D7815;
+  background-color: #A8B820;
+  color: #6D7815;
+}
+.dark {
+  border-color: #49392F;
+  background-color: #705848;
+  color: #49392F;
+}
+.dragon {
+  border-color: #4924A1;
+  background-color: #7038F8;
+  color: #4924A1;
+}
+.electric {
+  border-color: #A1871F;
+  background-color: #F8D030;
+  color: #A1871F;
+}
+.fairy {
+  border-color: #9B6470;
+  background-color: #EE99AC;
+  color: #9B6470;
+}
+.fighting {
+  border-color: #7D1F1A;
+  background-color: #C03028;
+  color: #7D1F1A;
+}
+.fire {
+  border-color: #9C531F;
+  background-color: #F08030;
+  color: #9C531F;
+}
+.flying {
+  border-color: #6D5E9C;
+  background-color: #A890F0;
+  color: #6D5E9C;
+}
+.ghost {
+  border-color: #493963;
+  background-color: #705898;
+  color: #493963;
+}
+.grass {
+  border-color: #4E8234;
+  background-color: #78C850;
+  color: #4E8234;
+}
+.ground {
+  border-color: #927D44;
+  background-color: #E0C068;
+  color: #927D44;
+}
+.ice {
+  border-color: #638D8D;
+  background-color: #98D8D8;
+  color: #638D8D;
+}
+.normal {
+  border-color: #6D6D4E;
+  background-color: #A8A878;
+  color: #6D6D4E;
+}
+.poison {
+  border-color: #682A68;
+  background-color: #A040A0;
+  color: #682A68;
+}
+.psychic {
+  border-color: #A13959;
+  background-color: #F85888;
+  color: #A13959;
+}
+.rock {
+  border-color: #786824;
+  background-color: #B8A038;
+  color: #786824;
+}
+.steel {
+  border-color: #787887;
+  background-color: #B8B8D0;
+  color: #787887;
+}
+.water {
+  border-color: #445E9C;
+  background-color: #6890F0;
+  color: #445E9C;
+}
+
+.light-bug {
+    background-color: #C6D16E;
+    color: #6D7815;
+}
+.light-dark {
+    background-color: #A29288;
+    color: #49392F;
+}
+.light-dragon {
+    background-color: #A27DFA;
+    color: #4924A1;
+}
+.light-electric {
+    background-color: #FAE078;
+    color: #A1871F;
+}
+.light-fairy {
+    background-color: #F4BDC9;
+    color: #9B6470;
+}
+.light-fighting {
+    background-color: #D67873;
+    color: #7D1F1A;
+}
+.light-fire {
+    background-color: #F5AC78;
+    color: #9C531F;
+}
+.light-flying {
+    background-color: #C6B7F5;
+    color: #6D5E9C;
+}
+.light-ghost {
+    background-color: #A292BC;
+    color: #493963;
+}
+.light-grass {
+    background-color: #A7DB8D;
+    color: #4E8234;
+}
+.light-ground {
+    background-color: #EBD69D;
+    color: #927D44;
+}
+.light-ice {
+    background-color: #BCE6E6;
+    color: #638D8D;
+}
+.light-normal {
+    background-color: #C6C6A7;
+    color: #6D6D4E;
+}
+.light-poison {
+    background-color: #C183C1;
+    color: #682A68;
+}
+.light-psychic {
+    background-color: #FA92B2;
+    color: #A13959;
+}
+.light-rock {
+    background-color: #D1C17D;
+    color: #786824;
+}
+.light-steel {
+    background-color: #D1D1E0;
+    color: #787887;
+}
+.light-water {
+    background-color: #9DB7F5;
+    color: #445E9C;
+}
+
+
+
+/* spinner  by: https://codepen.io/raubaca/pen/obaZmG */
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  background: #ecf0f1;
+}
+.center-on-page {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+/* Poké Styles */
+.pokeball {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  border: 10px solid #000;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: inset -10px 10px 0 10px #ccc;
+  animation: fall .25s ease-in-out,
+             shake 1.25s cubic-bezier(.36,.07,.19,.97) 3;
+}
+.pokeball::before,
+.pokeball::after {
+  content:"";
+  position: absolute;
+}
+.pokeball::before {
+  background: red;
+  width: 100%;
+  height: 50%;
+}
+.pokeball::after {
+  top: calc(50% - 10px);
+  width: 100%;
+  height: 20px;
+  background: #000;
+}
+.pokeball__button {
+  position: absolute;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  width: 60px;
+  height: 60px;
+  background: #7f8c8d;
+  border: 10px solid #fff;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0 0 0 10px black;
+  animation: blink .5s alternate 7;
+}
+/* Animation */
+@keyframes blink {
+  from { background: #eee;}
+  to { background: #e74c3c; }
+}
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0); }
+  20% { transform: translate(-10px, 0) rotate(-20deg); }
+  30% { transform: translate(10px, 0) rotate(20deg); }
+  50% { transform: translate(-10px, 0) rotate(-10deg); }
+  60% { transform: translate(10px, 0) rotate(10deg); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+@keyframes fall {
+  0% { top: -200px }
+  60% { top: 0 }
+  80% { top: -20px }
+  100% { top: 0 }
+}

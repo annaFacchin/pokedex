@@ -11,20 +11,28 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
         integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="pokedex.css"> -->
+    <link rel="stylesheet" type="text/css" href="pokedex.css">
 
     <!-- Js -->
     <script src='pokedex.js'></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 
     <title>Pokedex</title>
 </head>
 
-<script>getPokedex(6);</script>
-
-<body>
+<body style="background-color: rgb(162, 210, 255);">
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+        <!-- pokeball icon -->
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="37" height="37" viewBox="0 0 226 226"
             style=" fill:#000000;">
             <g transform="">
@@ -41,47 +49,42 @@
                 </g>
             </g>
         </svg>
+        <!-- /pokeball icon -->
         <a class="navbar-brand" style="color: #575757"> &nbsp pokédex ʕ •ᴥ•ʔゝ☆</a>
     </nav>
-
-    <!-- Pokemon List -->
+    
     <div class="album py-5">
 
         <!-- Pages navigation -->
-        <div class="container">
+        <!-- <div class="container" style="text-align: center;">
             <div id="pages"></div>
-        </div>
+            <div id="spinner" ></div>
+        </div> -->
+        
+        
+            <div class="container">
+                <div id="pages"></div>
+            </div>
+        <br>
+            
+        
 
+            <!-- <div class="center-on-page">
+                <div class="pokeball">
+                  <div class="pokeball__button"></div>
+                </div></div> -->
+              
+
+<!-- Pokemon List -->
         <div class="container-fluid">
-            <div class="row" id="pokemon-list"></div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">DETAILS</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div style="text-align: center;" id="pokemon-details"></div>
+            <div class="row" id="pokemon-list">
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    <div id="spinner" ></div>
+
+    <script>getPokedex(100);</script>
 </body>
 
 </html>

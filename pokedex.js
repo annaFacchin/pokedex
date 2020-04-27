@@ -1,5 +1,29 @@
-function getPokedex(limit) {
-    var promise = fetch('https://pokeapi.co/api/v2/pokemon/?limit=' + limit);
+
+// TODO: 
+// - fix prev/next page (function doesn't read the closing parenthesis after the url)
+
+var currPage = 1;
+
+function getPokedex(limit, offset) {
+    if (offset == undefined) {
+        offset = 0;
+        currPage = 1;
+    } else {
+        currPage = (offset / 100) + 1;
+    }
+    document.getElementById("pokemon-list").innerHTML =
+    "<div class='center-on-page'>"
+                +"<div class='pokeball'>"
+                  +"<div class='pokeball__button'></div>"
+               +"</div></div>";
+
+    var promise = fetch('https://pokeapi.co/api/v2/pokemon/?limit=' + limit + '&offset=' + offset);
+    promise.then(onPokedexSuccess, onError);
+}
+
+function getPokedexByUrl(url, newCurrPage) {
+    currPage = newCurrPage;
+    var promise = fetch(url);
     promise.then(onPokedexSuccess, onError);
 }
 
@@ -14,45 +38,107 @@ var onPokedexSuccess = function (response) {
     body.then(function (data) {
         console.log(data);
 
+        var pages = Math.floor(data["count"] / 100) + 1;
+        console.log("pages: " + pages);
+        generateNavigator(pages, data["previous"], data["next"]);
+
         var pokedex = data["results"];
         var dexHTML = "";
-        var picHTML = "";
-        var picId = 0;
+        var picId = "";
+        var positionId = "";
+        pkmPromises = [];
+        classHTML = "";
 
         for (var pokemon of pokedex) {
+            picId = pokemon.name + "-pic";
+            positionId = pokemon.name + "-position";
+            pkmnCardId = pokemon.name + "-card";
+            detailsBtnId = pokemon.name + "-detailsButton";
+
+            modalId = pokemon.name + "-modal";
+            modalBtnId = pokemon.name + "-modalButton";
+
             dexHTML +=
-
-                "<div class='col-md-4'>"
-                + "<div class='card mb-4 shadow-sm'>"
-                + "<div id='"+picId+"'></div>"
+                "<div class='col-md-2'>"
+                + "<div id='" + pkmnCardId + "' class='card mb-4 shadow-sm pkmn-card' style='text-align: center;'><br>"
+                + "<div id='" + picId + "' class='pkmn-pic'></div>"
                 + "<div class='card-body'>"
-                + "<h5>" + pokemon.name + "</h5>"
-                + "<div class='d-flex justify-content-between align-items-center'>"
-                + "<div class='btn-group'>"
-                + "<button onclick='getDetails(\""
-                + pokemon.url + "\")' data-toggle='modal' data-target='#exampleModalCenter'>DETAILS</button>"
-                + "</div></div></div></div></div>"
+                + "<button id='" + positionId + "' class='positionCircle' disabled></button><br><br>"
+                + "<div><h5><b>" + pokemon.name + " " + "</b></h5></div>"
+                + "<br>"
+                + "<div style='text-align:center'>"
+                + "<button id='" + detailsBtnId + "' class='btn custom-button' onclick='getDetails(\""
+                + pokemon.url + "\")' data-toggle='modal' data-target='#modal'>DETAILS</button><br>"
+                + "</div></div></div></div>"
 
-                fetch(pokemon.url).then(
-                    function (response) {
-                        console.log(response);
-                        var body = response.json();
-                        body.then(function (data) {
-                            console.log(data);
-            
-                            var pic = data["sprites"]["front_default"];
-                            picHTML = "<img class='card-img-top' src='" + pic + "'>";
-                            document.getElementById(picId).innerHTML = picHTML;
-                        })
-                    })
-                    picId += 1;
+                // modal
+                + "<div class='modal fade' id='modal' tabindex='-1' role='dialog'"
+                + "aria-labelledby='modalTitle' aria-hidden='true'>"
+                + "<div class='modal-dialog modal-dialog-centered' role='document'>"
+                + "<div id='modalId' class='modal-content custom-modal'>"
+                + "<div style='text-align: center;'><br>"
+                + "<div class='modal-title' id='exampleModalLongTitle'><b>DETAILS</b></div>"
+                + "<div  id='pokemon-details'></div>"
+                + "<div><button id='modalBtnId' type='button' class='btn custom-button' data-dismiss='modal' aria-label='Close'>CLOSE</button>"
+                + "</div><br>"
+                + "</div>"
+                + "</div>"
+                + "</div>"
+                + "</div>";
+
+            document.getElementById("pokemon-list").innerHTML = dexHTML;
+            var promise = fetch(pokemon.url);
+            pkmPromises.push(promise);
         }
-        document.getElementById("pokemon-list").innerHTML = dexHTML;
-        console.log(navigation(pokedex, 1, 10));
-    })
-}
 
-// get pokemon details on button click
+        // customize cards colors based on types and fetch sprites
+        Promise.all(pkmPromises).then(
+            function (responses) {
+                console.log(responses);
+                var resPromises = [];
+                for (var res of responses) {
+                    var body = res.json();
+                    resPromises.push(body);
+                }
+                document.getElementById("pokemon-list").innerHTML = dexHTML;
+                Promise.all(resPromises).then(
+                    function (data) {
+
+                        for (var oneData of data) {
+                            var pic = oneData["sprites"]["front_default"];
+                            var position = oneData["id"];
+                            var classType = oneData["types"];
+                            var strClass = "";
+
+                            for (var t of classType) {
+                                strClass = t["type"]["name"];
+                            }
+
+                            positionHTML = "<b>" + position + "</b>";
+                            picHTML = "<img clas='card-img-top' src='" + pic + "'>";
+                            classHTML = "card mb-4 shadow-sm pkmn-card custom-border " + strClass;
+                            classPicHTML = "pkmn-pic light-" + strClass;
+                            positionClassHTML = "positionCircle " + strClass + " light-" + strClass;
+                            detailsClassHTML = "btn custom-button " + strClass + " light-" + strClass;
+
+                            var onePicId = oneData["name"] + "-pic";
+                            var onePositionId = oneData["name"] + "-position";
+                            var onePkmnCardId = oneData["name"] + "-card";
+                            var oneDetailsBtnId = oneData["name"] + "-detailsButton";
+
+                            document.getElementById(onePicId).innerHTML = picHTML;
+                            document.getElementById(onePositionId).innerHTML = positionHTML;
+                            document.getElementById(onePkmnCardId).setAttribute("class", classHTML);
+                            document.getElementById(onePicId).setAttribute("class", classPicHTML);
+                            document.getElementById(onePositionId).setAttribute("class", positionClassHTML);
+                            document.getElementById(oneDetailsBtnId).setAttribute("class", detailsClassHTML);
+                        }
+                    });
+            });
+    });
+};
+
+// get pokemon details on button click and customize modal
 function getDetails(url) {
     fetch(url).then(
         function (response) {
@@ -63,6 +149,8 @@ function getDetails(url) {
 
                 var detailsHTML = "";
                 var strTypes = "";
+                var classType = data["types"];
+                var strClass = "";
 
                 var pokemon = {
                     id: data["id"],
@@ -79,50 +167,54 @@ function getDetails(url) {
                     strTypes += t["type"]["name"] + " ";
                 }
 
+                for (var c of classType) {
+                    strClass = c["type"]["name"];
+                }
+
+                modalClassHTML = "modal-content custom-modal light-" + strClass;
+                modalBtnClassHTML = "btn custom-button " + strClass;
+
                 detailsHTML += "<div><img src='" + pokemon.picFront + "'>"
-                    + "<div><img src='" + pokemon.picBack + "'><img src='" + pokemon.picShiny + "'></div><ul>"
-                    + "<li><b>Pokedex no</b>: " + pokemon.id + "</li>"
-                    + "<li><b>Height </b>: " + pokemon.height + "</li>"
-                    + "<li><b>Weight </b>: " + pokemon.weight + "</li>"
-                    + "<li><b>Type/s </b>: " + strTypes + "</li>"
-                    + "</ul></div>";
+                    + "<div><img src='" + pokemon.picBack + "'><img src='" + pokemon.picShiny + "'></div>"
+                    + "<b>Pokedex no</b>: " + pokemon.id + "<br>"
+                    + "<b>Height </b>: " + pokemon.height + "<br>"
+                    + "<b>Weight </b>: " + pokemon.weight + "<br>"
+                    + "<b>Type/s </b>: " + strTypes + "<br><br>"
+                    + "</div>";
 
                 document.getElementById("pokemon-details").innerHTML = detailsHTML;
+                document.getElementById("modalId").setAttribute("class", modalClassHTML);
+                document.getElementById("modalBtnId").setAttribute("class", modalBtnClassHTML);
             })
         })
 }
 
 // Pages navigation
-function navigation(itemsList, page, itemsPerPage) {
+function generateNavigator(pages, previousPage, nextPage) {
+    var pagesHTML =
+        "<nav aria-label='navigator'><ul class='pagination justify-content-center'>";
 
-    var pagesHTML = "";
-    var currentPage = page || 1;
-    var prevPage = page - 1 ? page - 1 : null;
-    var nextPage = page + 1 ? page + 1 : null;
-    var itemsPerPage = itemsPerPage || 100;
-    var offset = (page - 1) * itemsPerPage;
+    if (previousPage != null) {
+        pagesHTML +=
+            "<li class='page-item'><button class='btn custom-button grass light-grass' tabindex='-1' onclick='getPokedexByUrl(\"" + previousPage + "\")'>Previous</button></li>&nbsp;&nbsp;";
+    }
 
-    displayedItems = itemsList.slice(offset).slice(0, itemsPerPage);
-    var totalPages = Math.ceil(itemsList.length / itemsPerPage);
+    for (var i = 1; i <= pages; i++) {
+        var offset = (i - 1) * 100;
+        if (currPage == i) {
+            pagesHTML +=
+                "<li><button class='btn custom-button grass light-grass' onclick='getPokedex(100, " + offset + ")'>" + i + "</button></li>&nbsp;&nbsp;";
+        } else {
+            pagesHTML +=
+                "<li><button class='btn custom-button poison light-poison' onclick='getPokedex(100, " + offset + ")'>" + i + "</button></li>&nbsp;&nbsp;";
+        }
+    }
 
-    pagesHTML +=
-        "<nav aria-label='navigator'>"
-        + "<ul class='pagination'>"
-        + "<li class='page-item'>"
-        + "<a class='page-link' tabindex='-1' onclick='getPokedex(100)'>Previous</a>"
-        + "</li>"
-        + "<li class='page-item'><a class='page-link'>" + prevPage + "</a></li>"
-        + "<li class='page-item active'>"
-        + "<a class='page-link'>" + currentPage + "<span class='sr-only'>(current)</span></a>"
-        + "</li>"
-        + "<li class='page-item'><a class='page-link'>" + nextPage + "</a></li>"
-        + "<li class='page-item disabled'><a class='page-link'> ... </a></li>"
-        + "<li class='page-item'><a class='page-link'>" + totalPages + "</a></li>"
-        + "<li class='page-item'>"
-        + "<a class='page-link' onclick='getPokedex(100)'>Next</a>"
-        + "</li>"
-        + "</ul>"
-        + "</nav>"
-
+    if (nextPage != null) {
+        pagesHTML +=
+            "<li class='page-item'><button class='btn custom-button grass light-grass' tabindex='+1' onclick='getPokedexByUrl(\"" + nextPage + "\")'>Next</button></li>";
+        }
+    pagesHTML += "</ul></nav>";
+    
     document.getElementById("pages").innerHTML = pagesHTML;
 }
