@@ -1,7 +1,3 @@
-
-// TODO: 
-// - fix prev/next page (function doesn't read the closing parenthesis after the url)
-
 var currPage = 1;
 
 function getPokedex(limit, offset) {
@@ -12,19 +8,28 @@ function getPokedex(limit, offset) {
         currPage = (offset / 100) + 1;
     }
     document.getElementById("pokemon-list").innerHTML =
-    "<div class='center-on-page'>"
-                +"<div class='pokeball'>"
-                  +"<div class='pokeball__button'></div>"
-               +"</div></div>";
+        "<div class='center-on-page'>"
+        + "<div class='pokeball'>"
+        + "<div class='pokeball__button'></div>"
+        + "</div></div>";
 
     var promise = fetch('https://pokeapi.co/api/v2/pokemon/?limit=' + limit + '&offset=' + offset);
     promise.then(onPokedexSuccess, onError);
 }
 
 function getPokedexByUrl(url, newCurrPage) {
-    currPage = newCurrPage;
     var promise = fetch(url);
     promise.then(onPokedexSuccess, onError);
+}
+
+function previous(url) {
+    currPage--;
+    getPokedexByUrl(url);
+}
+
+function next(url) {
+    currPage++;
+    getPokedexByUrl(url);
 }
 
 var onError = function (error) {
@@ -196,7 +201,7 @@ function generateNavigator(pages, previousPage, nextPage) {
 
     if (previousPage != null) {
         pagesHTML +=
-            "<li class='page-item'><button class='btn custom-button grass light-grass' tabindex='-1' onclick='getPokedexByUrl(\"" + previousPage + "\")'>Previous</button></li>&nbsp;&nbsp;";
+            "<li class='page-item'><button class='btn custom-button grass light-grass' tabindex='-1' onclick='previous(\"" + previousPage + "\")'>Previous</button></li>&nbsp;&nbsp;";
     }
 
     for (var i = 1; i <= pages; i++) {
@@ -212,9 +217,9 @@ function generateNavigator(pages, previousPage, nextPage) {
 
     if (nextPage != null) {
         pagesHTML +=
-            "<li class='page-item'><button class='btn custom-button grass light-grass' tabindex='+1' onclick='getPokedexByUrl(\"" + nextPage + "\")'>Next</button></li>";
-        }
+            "<li class='page-item'><button class='btn custom-button grass light-grass' tabindex='+1' onclick='next(\"" + nextPage + "\")'>Next</button></li>";
+    }
     pagesHTML += "</ul></nav>";
-    
+
     document.getElementById("pages").innerHTML = pagesHTML;
 }
